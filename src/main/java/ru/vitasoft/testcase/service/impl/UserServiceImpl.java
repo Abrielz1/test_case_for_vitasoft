@@ -2,48 +2,55 @@ package ru.vitasoft.testcase.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.vitasoft.testcase.model.dto.TicketDto;
-import ru.vitasoft.testcase.model.dto.TicketNewDto;
-import ru.vitasoft.testcase.repository.TicketRepository;
+import ru.vitasoft.testcase.exception.exceptions.BadRequestException;
+import ru.vitasoft.testcase.exception.exceptions.ObjectNotFoundException;
+import ru.vitasoft.testcase.model.dto.UserDto;
+import ru.vitasoft.testcase.model.entity.User;
+import ru.vitasoft.testcase.model.mapper.UserMapper;
 import ru.vitasoft.testcase.repository.UserRepository;
 import ru.vitasoft.testcase.service.UserService;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final TicketRepository ticketRepository;
-
     @Override
-    public TicketDto getTokenCreatedByUser(Long userId, Boolean sort) {
+    public List<UserDto> getAllUsersList(Integer from, Integer size) {
 
-        return null;
+        PageRequest page = PageRequest.of(from, from / size);
+
+        return userRepository.findAll(page)
+                .stream()
+                .map(UserMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
-    public TicketDto creationTicketByUser(Long userId, TicketNewDto newTicket) {
+    public UserDto getUserByUsername(UserDto userDto) {
 
-        return null;
+        if (userDto.getUsername().isBlank()) {
+            throw new BadRequestException("No username fond in UserDto!");
+        }
+
+        return UserMapper.toDto(this.getAuthorFromDbByUsername(userDto.getUsername()));
     }
 
     @Override
-    @Transactional
-    public TicketDto editTicketByUser(Long userId, TicketNewDto newTicket) {
+    public UserDto approveUserToOperatorRole(Long userId) {
 
-        return null;
+        return UserMapper.toDto(userRepository.findById(userId).orElseThrow(()->
+                new ObjectNotFoundException("No user in Db")));
     }
 
-    @Override
-    @Transactional
-    public TicketDto sendTicketToOperatorToReview(Long userId) {
+    private User getAuthorFromDbByUsername(String username) {
 
-        return null;
+        return userRepository.getAuthorFromDbByUsername(username).orElseThrow();
     }
 }

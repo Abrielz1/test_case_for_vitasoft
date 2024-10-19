@@ -1,15 +1,13 @@
 package ru.vitasoft.testcase.service;
 
-import ru.vitasoft.testcase.model.dto.TicketDto;
-import ru.vitasoft.testcase.model.dto.TicketNewDto;
+import ru.vitasoft.testcase.model.dto.UserDto;
+import java.util.List;
 
 public interface UserService {
 
-    TicketDto getTokenCreatedByUser(Long userId, Boolean sort) ;
+    List<UserDto> getAllUsersList(Integer from, Integer size);
 
-    TicketDto creationTicketByUser(Long userId, TicketNewDto newTicket);
+    UserDto getUserByUsername(UserDto userDto);
 
-    TicketDto editTicketByUser(Long userId, TicketNewDto newTicket);
-
-    TicketDto sendTicketToOperatorToReview(Long userId);
+    UserDto approveUserToOperatorRole(Long userId);
 }

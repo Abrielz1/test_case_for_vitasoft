@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import ru.vitasoft.testcase.model.entity.User;
 import ru.vitasoft.testcase.model.enums.status.Status;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -23,5 +24,7 @@ public class TicketDto {
 
     private Status status;
 
-    private User user;
+    private LocalDateTime created;
+
+    private User author;
 }

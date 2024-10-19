@@ -38,14 +38,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "",nullable = false,unique = true)
+    @Column(name = "email", nullable = false, columnDefinition = "VARCHAR(32)", unique = true)
+    private String email;
+
+    @Column(name = "username", columnDefinition = "VARCHAR(32)", nullable = false,unique = true)
     private String username;
 
-    @Column(name = "",nullable = false)
+    @Column(name = "password", nullable = false, columnDefinition = "VARCHAR(32)")
     private String password;
-
-    @Column(name = "",nullable = false,unique = true)
-    private String email;
 
     @ElementCollection(targetClass = RoleType.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
