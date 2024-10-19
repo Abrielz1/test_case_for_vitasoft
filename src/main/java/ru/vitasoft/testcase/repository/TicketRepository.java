@@ -3,11 +3,8 @@ package ru.vitasoft.testcase.repository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.vitasoft.testcase.model.entity.Ticket;
-import ru.vitasoft.testcase.model.entity.User;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +16,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query(value =
            "SELECT * "
          + "FROM tickets "
-         + "WHERE tickets.author = :userId " ,nativeQuery = true)
-    Optional<Ticket> findByAuthorId(Long userId);
+         + "WHERE tickets.author_id = :authorId " ,nativeQuery = true)
+    Optional<Ticket> findByAuthorId(Long authorId);
 
-    List<Ticket> findAllByUsername(@Param("author") User author, PageRequest pageRequest);
+    List<Ticket> findAllByAuthor_Id(Long author_id, PageRequest pageRequest);
 }

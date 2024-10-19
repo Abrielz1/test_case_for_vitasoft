@@ -57,7 +57,7 @@ public class UserController {
         return userService.editTicketByUser(authorId, ticketToUpdate);
     }
 
-    @PutMapping("/{authorId}")
+    @PutMapping("send/{authorId}")
     @ResponseStatus(HttpStatus.OK)
     public TicketDto sendTicketToOperatorToReview(@Positive @PathVariable(name = "authorId") Long authorId) {
 

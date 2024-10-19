@@ -44,7 +44,7 @@ public class TicketServiceImpl implements TicketService {
                     .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
                     .sorted(Comparator.comparing(Ticket::getCreated).reversed())
                     .map(TicketMapper::toDto)
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         return ticketRepository.findAll(pageRequest)
@@ -52,7 +52,7 @@ public class TicketServiceImpl implements TicketService {
                 .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
                 .sorted(Comparator.comparing(Ticket::getCreated))
                 .map(TicketMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -67,20 +67,20 @@ public class TicketServiceImpl implements TicketService {
 
         if (Boolean.TRUE.equals(sort)) {
 
-            return ticketRepository.findAllByUsername(authorFromDb, pageRequest)
+            return ticketRepository.findAllByAuthor_Id(authorFromDb.getId(), pageRequest)
                     .stream()
                     .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
                     .sorted(Comparator.comparing(Ticket::getCreated).reversed())
                     .map(TicketMapper::toDto)
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
-        return ticketRepository.findAllByUsername(authorFromDb, pageRequest)
+        return ticketRepository.findAllByAuthor_Id(authorFromDb.getId(), pageRequest)
                 .stream()
                 .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
                 .sorted(Comparator.comparing(Ticket::getCreated))
                 .map(TicketMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -134,7 +134,7 @@ public class TicketServiceImpl implements TicketService {
                     .sorted(Comparator.comparing(Ticket::getCreated).reversed())
                     .map(this::textManipulator)
                     .map(TicketMapper::toDto)
-                    .collect(Collectors.toList());
+                    .toList();
 
         }
 
@@ -144,7 +144,7 @@ public class TicketServiceImpl implements TicketService {
                 .sorted(Comparator.comparing(Ticket::getCreated))
                 .map(this::textManipulator)
                 .map(TicketMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
