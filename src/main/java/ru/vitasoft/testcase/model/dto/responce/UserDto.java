@@ -1,4 +1,4 @@
-package ru.vitasoft.testcase.model.dto;
+package ru.vitasoft.testcase.model.dto.responce;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

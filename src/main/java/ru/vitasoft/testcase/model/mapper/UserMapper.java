@@ -1,7 +1,7 @@
 package ru.vitasoft.testcase.model.mapper;
 
 import ru.vitasoft.testcase.exception.exceptions.BadRequestException;
-import ru.vitasoft.testcase.model.dto.UserDto;
+import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import ru.vitasoft.testcase.model.entity.User;
 
 public class UserMapper {

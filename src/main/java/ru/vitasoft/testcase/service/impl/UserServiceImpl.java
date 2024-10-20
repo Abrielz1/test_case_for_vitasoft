@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.vitasoft.testcase.exception.exceptions.AlreadyExistsException;
 import ru.vitasoft.testcase.exception.exceptions.BadRequestException;
 import ru.vitasoft.testcase.exception.exceptions.ObjectNotFoundException;
-import ru.vitasoft.testcase.model.dto.UserDto;
+import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import ru.vitasoft.testcase.model.entity.User;
 import ru.vitasoft.testcase.model.enums.roles.RoleType;
 import ru.vitasoft.testcase.model.mapper.UserMapper;
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto registerUserOnServer(UserDto newUser) {
 
-        if (this.checkUser(newUser.getUsername(), newUser.getEmail())) {
+        if (this.checkUser(newUser.getUsername())) {
             throw new AlreadyExistsException("User with this credentials already exists on this server!");
         }
 
@@ -74,9 +74,9 @@ public class UserServiceImpl implements UserService {
         return UserMapper.toDto(toDb);
     }
 
-    private boolean checkUser(String username, String email) {
+    private boolean checkUser(String username) {
 
-        return userRepository.existsByUsernameAndAndEmail(username, email);
+        return userRepository.existsByUsername(username);
     }
 
     private User getAuthorFromDbByUsername(String username) {

@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.vitasoft.testcase.service.UserService;
-import ru.vitasoft.testcase.model.dto.UserDto;
-import ru.vitasoft.testcase.utils.Create;
+import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import ru.vitasoft.testcase.utils.Update;
 
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admins")
 @RequiredArgsConstructor
 public class AdminController {
 

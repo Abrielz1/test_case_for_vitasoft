@@ -13,5 +13,8 @@ services:
     image: redis:7.0.12
     ports:
       - "6379:6379"
-#    volumes:
-#      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+#    command: --init-file /docker//1-init.sql
+    volumes:
+#      - ./schema.sql:/docker-entrypoint-initdb.d/1-init.sql
+#      - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
+#      - ./schema.sql:/docker-entrypoint-initdb.d/1-init.sql.

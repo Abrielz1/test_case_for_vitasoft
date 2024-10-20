@@ -1,8 +1,8 @@
 package ru.vitasoft.testcase.service;
 
-import ru.vitasoft.testcase.model.dto.TicketDto;
-import ru.vitasoft.testcase.model.dto.TicketNewDto;
-import ru.vitasoft.testcase.model.dto.UserDto;
+import ru.vitasoft.testcase.model.dto.responce.TicketDto;
+import ru.vitasoft.testcase.model.dto.in.TicketNewDto;
+import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import java.util.List;
 
 public interface TicketService {

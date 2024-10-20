@@ -15,17 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import ru.vitasoft.testcase.model.dto.TicketDto;
-import ru.vitasoft.testcase.model.dto.TicketNewDto;
-import ru.vitasoft.testcase.model.dto.UserDto;
+import ru.vitasoft.testcase.model.dto.responce.TicketDto;
+import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import ru.vitasoft.testcase.service.TicketService;
-import ru.vitasoft.testcase.utils.Update;
+
 import java.util.List;
 
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/operator")
+@RequestMapping("/operators")
 @RequiredArgsConstructor
 public class OperatorController {
 

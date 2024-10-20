@@ -1,6 +1,6 @@
 package ru.vitasoft.testcase.service;
 
-import ru.vitasoft.testcase.model.dto.UserDto;
+import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import java.util.List;
 
 public interface UserService {

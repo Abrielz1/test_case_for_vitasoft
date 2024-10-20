@@ -20,6 +20,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 import ru.vitasoft.testcase.model.enums.roles.RoleType;
+
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column(name = "id")

@@ -1,8 +1,8 @@
 package ru.vitasoft.testcase.model.mapper;
 
 import ru.vitasoft.testcase.exception.exceptions.BadRequestException;
-import ru.vitasoft.testcase.model.dto.TicketDto;
-import ru.vitasoft.testcase.model.dto.TicketNewDto;
+import ru.vitasoft.testcase.model.dto.responce.TicketDto;
+import ru.vitasoft.testcase.model.dto.in.TicketNewDto;
 import ru.vitasoft.testcase.model.entity.Ticket;
 import ru.vitasoft.testcase.model.entity.User;
 import ru.vitasoft.testcase.model.enums.status.Status;
