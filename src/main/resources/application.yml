@@ -11,7 +11,7 @@ spring:
       hibernate:
         format_sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    generate-ddl: true
+    generate-ddl: false
 
   datasource:
     url: jdbc:postgresql://localhost:5432/ticket_db

@@ -4,15 +4,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import ru.vitasoft.testcase.exception.exceptions.AlreadyExistsException;
 import ru.vitasoft.testcase.exception.exceptions.BadRequestException;
 import ru.vitasoft.testcase.exception.exceptions.ObjectNotFoundException;
 import ru.vitasoft.testcase.model.dto.UserDto;
 import ru.vitasoft.testcase.model.entity.User;
+import ru.vitasoft.testcase.model.enums.roles.RoleType;
 import ru.vitasoft.testcase.model.mapper.UserMapper;
 import ru.vitasoft.testcase.repository.UserRepository;
 import ru.vitasoft.testcase.service.UserService;
+
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,12 +27,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsersList(Integer from, Integer size) {
 
-        PageRequest page = PageRequest.of(from, from / size);
+        PageRequest page = PageRequest.of(from / size, size);
 
         return userRepository.findAll(page)
                 .stream()
                 .map(UserMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -45,8 +48,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto approveUserToOperatorRole(Long userId) {
 
-        return UserMapper.toDto(userRepository.findById(userId).orElseThrow(()->
-                new ObjectNotFoundException("No user in Db")));
+        User operator = userRepository.findById(userId).orElseThrow(()->
+                new ObjectNotFoundException("No user in Db"));
+
+        operator.setRoles(null);
+        operator.setRoles(new HashSet<>(List.of(RoleType.ROLE_OPERATOR)));
+
+        return UserMapper.toDto(operator);
+    }
+
+    @Override
+    public UserDto registerUserOnServer(UserDto newUser) {
+
+        if (this.checkUser(newUser.getUsername(), newUser.getEmail())) {
+            throw new AlreadyExistsException("User with this credentials already exists on this server!");
+        }
+
+        User toDb = UserMapper.toUser(newUser);
+
+        if (toDb.getRoles() == null) {
+            toDb.setRoles(newUser.getRoles());
+        }
+
+        userRepository.saveAndFlush(toDb);
+
+        return UserMapper.toDto(toDb);
+    }
+
+    private boolean checkUser(String username, String email) {
+
+        return userRepository.existsByUsernameAndAndEmail(username, email);
     }
 
     private User getAuthorFromDbByUsername(String username) {

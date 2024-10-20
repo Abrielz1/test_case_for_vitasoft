@@ -10,4 +10,6 @@ public interface UserService {
     UserDto getUserByUsername(UserDto userDto);
 
     UserDto approveUserToOperatorRole(Long userId);
+
+    UserDto registerUserOnServer(UserDto newUser);
 }

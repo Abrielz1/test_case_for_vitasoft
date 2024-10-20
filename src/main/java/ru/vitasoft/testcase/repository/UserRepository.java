@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
                   " FROM users" +
                   " WHERE users.username LIKE :username", nativeQuery = true)
     Optional<User> getAuthorFromDbByUsername(String username);
+
+    boolean existsByUsernameAndAndEmail(String username, String email);
 }

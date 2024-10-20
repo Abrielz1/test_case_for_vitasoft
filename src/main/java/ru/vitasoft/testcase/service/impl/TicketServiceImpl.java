@@ -35,7 +35,7 @@ public class TicketServiceImpl implements TicketService {
                                                                    Integer from,
                                                                    Integer size) {
 
-        PageRequest pageRequest = PageRequest.of(from, from / size);
+        PageRequest pageRequest = PageRequest.of(from / size, size);
 
         if (Boolean.TRUE.equals(sort)) {
 
@@ -61,7 +61,7 @@ public class TicketServiceImpl implements TicketService {
                                                                              Integer size,
                                                                              UserDto authorDto) {
 
-        PageRequest pageRequest = PageRequest.of(from, from / size);
+        PageRequest pageRequest = PageRequest.of(from / size, size);
 
         User authorFromDb = this.getAuthorFromDbByUsername(authorDto.getUsername());
 
@@ -124,7 +124,7 @@ public class TicketServiceImpl implements TicketService {
                                                   Integer from,
                                                   Integer size) {
 
-        PageRequest pageRequest = PageRequest.of(from, from / size);
+        PageRequest pageRequest = PageRequest.of(from / size, size);
 
         if (Boolean.TRUE.equals(sort)) {
 

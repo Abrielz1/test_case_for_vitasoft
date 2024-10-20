@@ -17,7 +17,19 @@ public class UserMapper {
                 .builder()
                 .email(user.getEmail())
                 .username(user.getUsername())
+                .password(user.getPassword())
                 .roles(user.getRoles())
+                .build();
+    }
+
+    public static User toUser(UserDto newUser) {
+
+        new User();
+        return User.builder()
+                .email(newUser.getEmail())
+                .username(newUser.getUsername())
+                .password(newUser.getPassword())
+                .roles(newUser.getRoles())
                 .build();
     }
 }

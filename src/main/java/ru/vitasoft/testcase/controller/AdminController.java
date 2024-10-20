@@ -10,12 +10,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.vitasoft.testcase.service.UserService;
 import ru.vitasoft.testcase.model.dto.UserDto;
+import ru.vitasoft.testcase.utils.Create;
+import ru.vitasoft.testcase.utils.Update;
+
 import java.util.List;
 
 @Slf4j
@@ -37,7 +41,7 @@ public class AdminController {
 
     @GetMapping("/user")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto getUserByUsername(@NotBlank UserDto userDto) {
+    public UserDto getUserByUsername(@NotBlank @Validated(Update.class) @RequestBody UserDto userDto) {
 
         return userService.getUserByUsername(userDto);
     }
