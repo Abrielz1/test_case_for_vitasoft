@@ -43,7 +43,7 @@ public class Ticket implements Comparable<Ticket> {
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
-    @Column(name = "created", columnDefinition = "TIMESTAMP", nullable = false)
+    @Column(name = "created", columnDefinition = "TIMESTAMP")
     private LocalDateTime created;
 
     @ManyToOne(fetch = FetchType.LAZY)

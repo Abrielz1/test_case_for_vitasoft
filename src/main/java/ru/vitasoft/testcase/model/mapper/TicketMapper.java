@@ -22,7 +22,11 @@ public class TicketMapper {
                 .message(ticket.getMessage())
                 .created(ticket.getCreated())
                 .status(ticket.getStatus())
-                .author(ticket.getAuthor())
+                .author(new User(ticket.getAuthor().getId(),
+                        ticket.getAuthor().getEmail(),
+                        ticket.getAuthor().getUsername(),
+                        "secret ;)",
+                        ticket.getAuthor().getRoles()))
                 .build();
     }
 
@@ -38,13 +42,16 @@ public class TicketMapper {
                 .build();
     }
 
-    public static Ticket toDtoFromNew(TicketNewDto ticketToUpdate) {
+    public static Ticket toDtoFromNew(TicketNewDto ticketToUpdate, Ticket ticketFromDb, User author) {
 
         new Ticket();
         return Ticket
                 .builder()
+                .id(ticketFromDb.getId())
                 .message(ticketToUpdate.getMessage())
                 .status(ticketToUpdate.getStatus())
+                .created(ticketFromDb.getCreated())
+                .author(author)
                 .build();
     }
 }

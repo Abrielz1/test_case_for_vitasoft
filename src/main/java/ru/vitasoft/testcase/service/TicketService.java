@@ -18,7 +18,7 @@ public interface TicketService {
     TicketDto editTicketByUser(Long userId,
                                TicketNewDto newTicket);
 
-    TicketDto sendTicketToOperatorToReview(Long userId);
+    TicketDto sendTicketToOperatorToReview(Long authorId, Long tickerId);
 
     List<TicketDto> getTicketCreatedByUsersToCheckByOperator(Boolean sort,
                                                             Integer from,
@@ -29,7 +29,7 @@ public interface TicketService {
                                                                       Integer size,
                                                                       UserDto authorDto);
 
-    TicketDto acceptUserTicket(Long authorId, TicketNewDto newTicket);
+    TicketDto acceptUserTicket(Long authorId, Long ticketId);
 
-    TicketDto rejectTicketByAuthorId(Long authorId, TicketNewDto newTicket);
+    TicketDto rejectTicketByAuthorId(Long authorId, Long ticketId);
 }

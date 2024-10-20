@@ -52,20 +52,20 @@ public class OperatorController {
         return ticketService.getTicketCreatedByUserToCheckByOperatorByUsername(sort, from, size, authorDto);
     }
 
-    @PutMapping("accept/{authorId}")
+    @PutMapping("accept/{authorId}/{ticketId}")
     @ResponseStatus(HttpStatus.OK)
-    public TicketDto createUserTicket(@Validated(Update.class) @Positive @PathVariable(name = "authorId") Long authorId,
-                                      @NotBlank @RequestBody TicketNewDto newTicket) {
+    public TicketDto createUserTicket(@Positive @PathVariable(name = "authorId") Long authorId,
+                                      @Positive @PathVariable(name = "ticketId") Long  ticketId) {
 
-        return ticketService.acceptUserTicket(authorId, newTicket);
+        return ticketService.acceptUserTicket(authorId, ticketId);
     }
 
-    @PutMapping("reject/{authorId}")
+    @PutMapping("reject/{authorId}/{ticketId}")
     @ResponseStatus(HttpStatus.OK)
-    public TicketDto rejectTicketByAuthorId(@Validated(Update.class)
-                                                @Positive @PathVariable(name = "authorId") Long authorId,
-                                            @NotBlank @RequestBody TicketNewDto newTicket) {
+    public TicketDto rejectTicketByAuthorId(@Positive @PathVariable(name = "authorId") Long authorId,
+                                            @Positive @PathVariable(name = "ticketId") Long  ticketId) {
 
-        return ticketService.rejectTicketByAuthorId(authorId, newTicket);
+
+        return ticketService.rejectTicketByAuthorId(authorId, ticketId);
     }
 }

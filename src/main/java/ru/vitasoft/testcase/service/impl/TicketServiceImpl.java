@@ -6,23 +6,26 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vitasoft.testcase.exception.exceptions.BadRequestException;
+import ru.vitasoft.testcase.exception.exceptions.ObjectNotFoundException;
 import ru.vitasoft.testcase.model.dto.TicketDto;
 import ru.vitasoft.testcase.model.dto.TicketNewDto;
 import ru.vitasoft.testcase.model.dto.UserDto;
 import ru.vitasoft.testcase.model.entity.Ticket;
 import ru.vitasoft.testcase.model.entity.User;
+import ru.vitasoft.testcase.model.enums.roles.RoleType;
 import ru.vitasoft.testcase.model.enums.status.Status;
 import ru.vitasoft.testcase.repository.TicketRepository;
 import ru.vitasoft.testcase.repository.UserRepository;
 import ru.vitasoft.testcase.service.TicketService;
 import ru.vitasoft.testcase.model.mapper.TicketMapper;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
 
@@ -41,7 +44,8 @@ public class TicketServiceImpl implements TicketService {
 
             return ticketRepository.findAll(pageRequest)
                     .stream()
-                    .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
+                    .filter(ticket -> ticket.getStatus().equals(Status.SEND))
+                    .map(this::textManipulator)
                     .sorted(Comparator.comparing(Ticket::getCreated).reversed())
                     .map(TicketMapper::toDto)
                     .toList();
@@ -49,7 +53,8 @@ public class TicketServiceImpl implements TicketService {
 
         return ticketRepository.findAll(pageRequest)
                 .stream()
-                .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
+                .filter(ticket -> ticket.getStatus().equals(Status.SEND))
+                .map(this::textManipulator)
                 .sorted(Comparator.comparing(Ticket::getCreated))
                 .map(TicketMapper::toDto)
                 .toList();
@@ -69,7 +74,7 @@ public class TicketServiceImpl implements TicketService {
 
             return ticketRepository.findAllByAuthor_Id(authorFromDb.getId(), pageRequest)
                     .stream()
-                    .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
+                    .filter(ticket -> ticket.getStatus().equals(Status.SEND))
                     .sorted(Comparator.comparing(Ticket::getCreated).reversed())
                     .map(TicketMapper::toDto)
                     .toList();
@@ -77,17 +82,17 @@ public class TicketServiceImpl implements TicketService {
 
         return ticketRepository.findAllByAuthor_Id(authorFromDb.getId(), pageRequest)
                 .stream()
-                .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
+                .filter(ticket -> ticket.getStatus().equals(Status.SEND))
                 .sorted(Comparator.comparing(Ticket::getCreated))
                 .map(TicketMapper::toDto)
                 .toList();
     }
 
     @Override
-    public TicketDto acceptUserTicket(Long authorId, TicketNewDto newTicket) {
+    public TicketDto acceptUserTicket(Long authorId, Long ticketId) {
 
         User author = this.getUserById(authorId);
-        Ticket ticket = TicketMapper.toTicketFromNew(newTicket, author);
+        Ticket ticket = this.getTicketByUserIdAndTicketId(author.getId(), ticketId);
 
         if (!ticket.getStatus().equals(Status.SEND)) {
             throw new BadRequestException("Ticket is not in the status: " + Status.SEND + " !");
@@ -99,10 +104,10 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDto rejectTicketByAuthorId(Long authorId, TicketNewDto newTicket) {
+    public TicketDto rejectTicketByAuthorId(Long authorId, Long ticketId) {
 
         User author = this.getUserById(authorId);
-        Ticket ticket = TicketMapper.toTicketFromNew(newTicket, author);
+        Ticket ticket = this.getTicketByUserIdAndTicketId(author.getId(), ticketId);
 
         if (!ticket.getStatus().equals(Status.SEND)) {
             throw new BadRequestException("Ticket is not in the status: " + Status.SEND + " !");
@@ -153,6 +158,13 @@ public class TicketServiceImpl implements TicketService {
                                           TicketNewDto newTicket) {
 
         User author = this.getUserById(authorId);
+
+        List<RoleType> list = new ArrayList<>(author.getRoles());
+
+        if (!list.get(0).equals(RoleType.ROLE_USER)) {
+            throw new BadRequestException("Only User can Create Tickets!");
+        }
+
         Ticket ticket = TicketMapper.toTicketFromNew(newTicket, author);
 
         return this.saveTicket(ticket);
@@ -163,25 +175,41 @@ public class TicketServiceImpl implements TicketService {
     public TicketDto editTicketByUser(Long authorId,
                                       TicketNewDto ticketToUpdate) {
 
-        this.getUserById(authorId);
+        User author = this.getUserById(authorId);
         Ticket ticketFromDb = this.getTicketByUserId(authorId);
 
-        return this.saveTicket(this.updaterFields(ticketFromDb, ticketToUpdate));
+        if (!ticketToUpdate.getStatus().equals(Status.DRAFT)) {
+            throw new BadRequestException("Status MUST be DAFT!");
+        }
+
+        if (!ticketFromDb.getStatus().equals(Status.DRAFT)){
+            throw new BadRequestException("Status MUST be DAFT!");
+        }
+
+        ticketFromDb = this.updaterFields(ticketFromDb, ticketToUpdate, author);
+
+        return this.saveTicket(ticketFromDb);
     }
 
     @Override
     @Transactional
-    public TicketDto sendTicketToOperatorToReview(Long authorId) {
+    public TicketDto sendTicketToOperatorToReview(Long authorId, Long tickerId) {
 
-        return TicketMapper.toDto(this.getTicketByUserId(authorId));
+        return this.getTicketByUserIdToSentToOperator(authorId, tickerId);
+    }
+
+    private TicketDto getTicketByUserIdToSentToOperator(Long authorId, Long tickerId) {
+
+        Ticket ticketFromDb = ticketRepository.findByAuthorIdAndTicketId(authorId, tickerId).orElseThrow();
+
+        ticketFromDb.setStatus(Status.SEND);
+
+        return TicketMapper.toDto(ticketFromDb);
     }
 
     private Ticket getTicketByUserId(Long authorId) {
 
-        Ticket ticketFromDb = ticketRepository.findByAuthorId(authorId).orElseThrow();
-        ticketFromDb.setStatus(Status.SEND);
-
-        return ticketFromDb;
+        return ticketRepository.findByAuthorId(authorId).orElseThrow();
     }
 
     private User getUserById(Long userId) {
@@ -195,17 +223,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     private Ticket updaterFields(Ticket ticket,
-                                 TicketNewDto ticketToUpdate) {
+                                 TicketNewDto ticketToUpdate, User author) {
 
         if (ticketToUpdate.getMessage() != null) {
             ticket.setMessage(ticketToUpdate.getMessage());
         }
 
-        if (!ticketToUpdate.getStatus().equals(ticket.getStatus())) {
-            ticketToUpdate.setStatus(ticket.getStatus());
-        }
-
-        return TicketMapper.toDtoFromNew(ticketToUpdate);
+        return TicketMapper.toDtoFromNew(ticketToUpdate, ticket, author);
     }
 
     private Ticket textManipulator(Ticket ticket) {
@@ -216,5 +240,11 @@ public class TicketServiceImpl implements TicketService {
                 .collect(Collectors.joining("_")));
 
         return ticket;
+    }
+
+    private Ticket getTicketByUserIdAndTicketId(Long authorId, Long ticketId) {
+
+        return ticketRepository.findByAuthorIdAndTicketId(authorId, ticketId)
+                .orElseThrow(() -> new ObjectNotFoundException("No ticket to ACCEPT"));
     }
 }

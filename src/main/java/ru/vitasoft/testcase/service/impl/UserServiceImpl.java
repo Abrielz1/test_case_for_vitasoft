@@ -13,7 +13,6 @@ import ru.vitasoft.testcase.model.enums.roles.RoleType;
 import ru.vitasoft.testcase.model.mapper.UserMapper;
 import ru.vitasoft.testcase.repository.UserRepository;
 import ru.vitasoft.testcase.service.UserService;
-
 import java.util.HashSet;
 import java.util.List;
 

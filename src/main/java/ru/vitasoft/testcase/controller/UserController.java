@@ -41,7 +41,7 @@ public class UserController {
        return userService.getTicketCreatedByUser(authorId, sort, from, size);
     }
 
-    @PutMapping("/{authorId}")
+    @PostMapping("/{authorId}")
     @ResponseStatus(HttpStatus.CREATED)
     public TicketDto creationTicketByUser(@Positive @PathVariable(name = "authorId") Long authorId,
                                           @Validated(Create.class)@RequestBody TicketNewDto newTicket) {
@@ -49,7 +49,7 @@ public class UserController {
         return userService.creationTicketByUser(authorId, newTicket);
     }
 
-    @PostMapping("/{authorId}")
+    @PutMapping("/{authorId}")
     @ResponseStatus(HttpStatus.OK)
     public TicketDto editTicketByUser(@Positive @PathVariable(name = "authorId") Long authorId,
                                       @Validated(Update.class)@RequestBody TicketNewDto ticketToUpdate) {
@@ -57,10 +57,10 @@ public class UserController {
         return userService.editTicketByUser(authorId, ticketToUpdate);
     }
 
-    @PutMapping("send/{authorId}")
+    @PutMapping("send/{authorId}/{tickerId}")
     @ResponseStatus(HttpStatus.OK)
-    public TicketDto sendTicketToOperatorToReview(@Positive @PathVariable(name = "authorId") Long authorId) {
-
-        return userService.sendTicketToOperatorToReview(authorId);
+    public TicketDto sendTicketToOperatorToReview(@Positive @PathVariable(name = "authorId") Long authorId,
+                                                  @Positive @PathVariable(name = "tickerId") Long tickerId) {
+        return userService.sendTicketToOperatorToReview(authorId, tickerId);
     }
 }
