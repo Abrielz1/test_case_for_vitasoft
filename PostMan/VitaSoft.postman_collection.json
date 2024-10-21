@@ -10,99 +10,6 @@
 			"name": "User",
 			"item": [
 				{
-					"name": "AddingAdminAccount",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\" : \"vasya\",\r\n    \"email\" : \"a11@mail.com\",\r\n    \"password\" : \"1234\",\r\n    \"roles\" : [\"ROLE_ADMIN\"]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Adding1stUserAccount",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\" : \"oleg\",\r\n    \"email\" : \"oleg1@mail.com\",\r\n    \"password\" : \"1234\",\r\n    \"roles\" : [\"ROLE_USER\"]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "AddingSecondUserAccount",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\" : \"senya\",\r\n    \"email\" : \"senya1@mail.com\",\r\n    \"password\" : \"1234\",\r\n    \"roles\" : [\"ROLE_USER\"]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "LoginAdmin",
 					"request": {
 						"auth": {
@@ -331,7 +238,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTI2NTQ1LCJleHAiOjE3Mjk1MjcxNDV9.UJuQws32zUJBy7ji1VZkAAkmeK4TySBD5YOLfYzYrHxQpdnjKE1kU8zL8CNxRHRc_J99amJD8RHuTf7DoJvAvw",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTI5OTc5LCJleHAiOjE3Mjk1MzA1Nzl9.QM3--QmMC1cx-a_WInSuaZsy9c5F1cgb7zcurJ1hGzSHFyVLCtnSP9rrIyB3zMLKorCtOX7VN_bivMlKbmpKOw",
 											"type": "string"
 										}
 									]
