@@ -37,13 +37,6 @@ public class AuthController {
         return securityService.authenticationUser(userLogin);
     }
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserDto registerUserOnServer(@NotBlank @Validated(Create.class) @RequestBody UserDto newUser) {
-
-       return securityService.register(newUser);
-    }
-
     @PostMapping("/refresh")
     @ResponseStatus(HttpStatus.OK)
     public RefreshTokenResponseDto refreshTokenAuthorizedUserSession(@NotBlank @Validated(Update.class)

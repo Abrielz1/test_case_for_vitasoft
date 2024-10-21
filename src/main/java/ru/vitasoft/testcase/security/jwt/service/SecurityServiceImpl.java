@@ -7,16 +7,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.vitasoft.testcase.exception.exceptions.AlreadyExistsException;
 import ru.vitasoft.testcase.exception.exceptions.RefreshTokenException;
 import ru.vitasoft.testcase.model.dto.in.LoginRequest;
 import ru.vitasoft.testcase.model.dto.responce.AuthResponseDto;
-import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import ru.vitasoft.testcase.model.entity.User;
-import ru.vitasoft.testcase.model.mapper.UserMapper;
 import ru.vitasoft.testcase.repository.UserRepository;
 import ru.vitasoft.testcase.security.dto.in.RefreshTokenRequestDto;
 import ru.vitasoft.testcase.security.dto.out.RefreshTokenResponseDto;
@@ -37,34 +33,6 @@ public class SecurityServiceImpl implements SecurityService {
     private final JwtUtils jwtUtils;
 
     private final RefreshTokenService refreshTokenService;
-
-    private final PasswordEncoder passwordEncoder;
-
-    @Override
-    @Transactional
-    public UserDto register(UserDto createUserRequest) {
-
-        if (this.checkUser(createUserRequest.getUsername())) {
-            throw new AlreadyExistsException("User with this credentials already exists on this server!");
-        }
-
-        User toDb = User.builder()
-                .username(createUserRequest.getUsername())
-                .email(createUserRequest.getEmail())
-                .password(passwordEncoder.encode(createUserRequest.getPassword()))
-                .build();
-        toDb.setRoles(createUserRequest.getRoles());
-
-        userRepository.saveAndFlush(toDb);
-
-        return UserMapper.toDto(toDb);
-
-    }
-
-    private boolean checkUser(String username) {
-
-        return userRepository.existsByUsername(username);
-    }
 
     @Override
     public AuthResponseDto authenticationUser(LoginRequest loginRequest) {
