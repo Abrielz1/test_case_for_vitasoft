@@ -47,7 +47,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void whenUserServiceCalledGetUserCredentialList_ThenReceivedUserWithNameVasyan() {
+    void whenUserServiceCalledGetUserCredentialList_ThenReceivedUserWithNameVasya() {
 
         List<User> list = new ArrayList<>();
         list.add(user);
@@ -61,4 +61,6 @@ class UserServiceImplTest {
         assertEquals("vasyan", userDtoList.get(0).getUsername(), "value: vasyan");
         assertEquals(userDto, userDtoList.get(0), "value: UserDto(username=vasyan)");
     }
+
+
 }

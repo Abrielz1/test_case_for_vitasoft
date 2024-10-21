@@ -20,5 +20,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
                    "AND  tickets.id = :ticketId" ,nativeQuery = true)
     Optional<Ticket> findByAuthorIdAndTicketId(Long authorId, Long ticketId);
 
-    List<Ticket> findAllByAuthor_Id(Long author_id, PageRequest pageRequest);
+    List<Ticket> findAllByAuthor_Username(String username, PageRequest pageRequest);
 }

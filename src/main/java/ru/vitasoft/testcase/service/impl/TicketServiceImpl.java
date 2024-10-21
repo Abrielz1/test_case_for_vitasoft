@@ -269,6 +269,6 @@ public class TicketServiceImpl implements TicketService {
 
     private List<Ticket> getListTicketCreatedByUsersAndFilterBySENT(User authorFromDb, PageRequest pageRequest) {
 
-        return ticketRepository.findAllByAuthor_Id(authorFromDb.getId(), pageRequest);
+        return ticketRepository.findAllByAuthor_Username(authorFromDb.getUsername(), pageRequest);
     }
 }
