@@ -55,7 +55,6 @@ public class UserServiceImpl implements UserService {
         return UserMapper.toDto(userRepository.saveAndFlush(operator));
     }
 
-
     private User getAuthorFromDbByUsername(String username) {
 
         return userRepository.getAuthorFromDbByUsername(username).orElseThrow(()->

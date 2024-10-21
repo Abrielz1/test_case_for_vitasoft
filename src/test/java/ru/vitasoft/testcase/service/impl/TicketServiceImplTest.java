@@ -90,7 +90,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void getTicketCreatedByUsersToCheckByOperatorAversTest() {
+    void When_getTicketCreatedByUsersToCheckByOperatorAvers_ThenGetListOfTicketsInAversOrderTest() {
 
         Integer from = 0;
         Integer size = 5;
@@ -124,7 +124,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void getTicketCreatedByUsersToCheckByOperatorReversTest() {
+    void When_getTicketCreatedByUsersToCheckByOperatorReversThenGetListOfTicketsInReversOrderTest() {
 
         Integer from = 0;
         Integer size = 5;
@@ -159,7 +159,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void getTicketCreatedByUserToCheckByOperatorByUsernameAversTest() {
+    void When_getTicketCreatedByUserToCheckByOperatorByUsernameAvers_ThenThenGetListOfTicketsCreatedByUserInAversOrderTest() {
 
         Integer from = 0;
         Integer size = 5;
@@ -208,7 +208,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void getTicketCreatedByUserToCheckByOperatorByUsernameReversTest() {
+    void When_getTicketCreatedByUserToCheckByOperatorByUsernameRevers_ThenThenGetListOfTicketsCreatedByUserInReversOrderTest() {
 
         Integer from = 0;
         Integer size = 5;
@@ -256,7 +256,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void getTicketCreatedByUserToCheckByUserByUserIdAversTest() {
+    void When_getTicketCreatedByUserToCheckByUserByUserIdAvers_ThenThenGetListOfTicketsCreatedByUserInAversOrderTest() {
 
         Integer from = 0;
         Integer size = 5;
@@ -289,7 +289,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void getTicketCreatedByUserToCheckByUserByUserIdReversTest() {
+    void When_getTicketCreatedByUserToCheckByUserByUserIdRevers_ThenThenGetListOfTicketsCreatedByUserInReversOrderTest() {
 
         Integer from = 0;
         Integer size = 5;
@@ -322,7 +322,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void editTicketByUserTest() {
+    void When_editMessageByUserTicketByUser_ThenMessageWillbe_New_Message_Test() {
 
         when(userRepository.findById(3L))
                 .thenReturn(Optional.ofNullable(user));
@@ -347,7 +347,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void acceptUserTicketTest() {
+    void When_acceptUserTicket_ThenStatusWillBeACCEPTEDTest() {
 
         when(userRepository.findById(3L))
                 .thenReturn(Optional.ofNullable(user));
@@ -365,7 +365,7 @@ class TicketServiceImplTest {
     }
 
     @Test
-    void rejectTicketByAuthorIdTest() {
+    void When_rejectTicketByAuthorId_ThenStatusWillBeREJECTEDTest() {
 
         when(userRepository.findById(3L))
                 .thenReturn(Optional.ofNullable(user));
