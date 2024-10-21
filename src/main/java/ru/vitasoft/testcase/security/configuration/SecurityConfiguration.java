@@ -54,14 +54,19 @@ public class SecurityConfiguration {
         security.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**")
                         .permitAll()
+
                         .requestMatchers("/users/**")
                         .hasAnyRole("USER")
+
                         .requestMatchers("/operators/**")
                         .hasAnyRole("OPERATOR")
+
                         .requestMatchers("/admins/**")
                         .hasAnyRole("ADMIN")
+
                         .anyRequest()
                         .authenticated())
+
                 .exceptionHandling(configurer -> configurer.authenticationEntryPoint(entryPoint))
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())

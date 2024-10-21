@@ -38,25 +38,17 @@ public class TicketServiceImpl implements TicketService {
                                                                    Integer from,
                                                                    Integer size) {
 
-        PageRequest pageRequest = PageRequest.of(from / size, size);
+        PageRequest pageRequest = this.pageRequestCalculator(from, size);
+
+        List<TicketDto> listDto = this.getTicketListAndManipulateIt(this.getListTicketsAndFilterBySENT(pageRequest));
 
         if (Boolean.TRUE.equals(sort)) {
 
-            return ticketRepository.findAll(pageRequest)
-                    .stream()
-                    .filter(ticket -> ticket.getStatus().equals(Status.SEND))
-                    .map(this::textManipulator)
-                    .sorted(Comparator.comparing(Ticket::getCreated).reversed())
-                    .map(TicketMapper::toDto)
-                    .toList();
+             return listDto;
         }
 
-        return ticketRepository.findAll(pageRequest)
-                .stream()
-                .filter(ticket -> ticket.getStatus().equals(Status.SEND))
-                .map(this::textManipulator)
-                .sorted(Comparator.comparing(Ticket::getCreated))
-                .map(TicketMapper::toDto)
+        return listDto.stream()
+                .sorted(Comparator.comparing(TicketDto::getCreated).reversed())
                 .toList();
     }
 
@@ -66,25 +58,22 @@ public class TicketServiceImpl implements TicketService {
                                                                              Integer size,
                                                                              UserDto authorDto) {
 
-        PageRequest pageRequest = PageRequest.of(from / size, size);
+        PageRequest pageRequest = this.pageRequestCalculator(from, size);
 
         User authorFromDb = this.getAuthorFromDbByUsername(authorDto.getUsername());
 
+        List<TicketDto> listDto = this.getTicketCreatedByUserListAndManipulateIt(
+                this.getListTicketCreatedByUsersAndFilterBySENT(authorFromDb, pageRequest)
+        );
+
+
         if (Boolean.TRUE.equals(sort)) {
 
-            return ticketRepository.findAllByAuthor_Id(authorFromDb.getId(), pageRequest)
-                    .stream()
-                    .filter(ticket -> ticket.getStatus().equals(Status.SEND))
-                    .sorted(Comparator.comparing(Ticket::getCreated).reversed())
-                    .map(TicketMapper::toDto)
-                    .toList();
+            return listDto;
         }
 
-        return ticketRepository.findAllByAuthor_Id(authorFromDb.getId(), pageRequest)
-                .stream()
-                .filter(ticket -> ticket.getStatus().equals(Status.SEND))
-                .sorted(Comparator.comparing(Ticket::getCreated))
-                .map(TicketMapper::toDto)
+        return listDto.stream()
+                .sorted(Comparator.comparing(TicketDto::getCreated).reversed())
                 .toList();
     }
 
@@ -129,15 +118,14 @@ public class TicketServiceImpl implements TicketService {
                                                   Integer from,
                                                   Integer size) {
 
-        PageRequest pageRequest = PageRequest.of(from / size, size);
+        PageRequest pageRequest = this.pageRequestCalculator(from, size);
 
         if (Boolean.TRUE.equals(sort)) {
 
             return ticketRepository.getAllByAuthor_Id(authorId, pageRequest)
                     .stream()
-                    .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
+                    .filter(ticket -> ticket.getStatus().equals(Status.SEND))
                     .sorted(Comparator.comparing(Ticket::getCreated).reversed())
-                    .map(this::textManipulator)
                     .map(TicketMapper::toDto)
                     .toList();
 
@@ -145,9 +133,8 @@ public class TicketServiceImpl implements TicketService {
 
         return ticketRepository.getAllByAuthor_Id(authorId, pageRequest)
                 .stream()
-                .filter(ticket -> !ticket.getStatus().equals(Status.SEND))
+                .filter(ticket -> ticket.getStatus().equals(Status.SEND))
                 .sorted(Comparator.comparing(Ticket::getCreated))
-                .map(this::textManipulator)
                 .map(TicketMapper::toDto)
                 .toList();
     }
@@ -173,16 +160,13 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public TicketDto editTicketByUser(Long authorId,
+                                      Long tickerId,
                                       TicketNewDto ticketToUpdate) {
 
         User author = this.getUserById(authorId);
-        Ticket ticketFromDb = this.getTicketByUserId(authorId);
+        Ticket ticketFromDb = this.getTicketByUserId(authorId, tickerId);
 
         if (!ticketToUpdate.getStatus().equals(Status.DRAFT)) {
-            throw new BadRequestException("Status MUST be DAFT!");
-        }
-
-        if (!ticketFromDb.getStatus().equals(Status.DRAFT)){
             throw new BadRequestException("Status MUST be DAFT!");
         }
 
@@ -200,21 +184,25 @@ public class TicketServiceImpl implements TicketService {
 
     private TicketDto getTicketByUserIdToSentToOperator(Long authorId, Long tickerId) {
 
-        Ticket ticketFromDb = ticketRepository.findByAuthorIdAndTicketId(authorId, tickerId).orElseThrow();
+        Ticket ticketFromDb = ticketRepository.findByAuthorIdAndTicketId(authorId, tickerId).orElseThrow(()->
+                new ObjectNotFoundException("No ticket To SEND"));
 
         ticketFromDb.setStatus(Status.SEND);
+        ticketRepository.saveAndFlush(ticketFromDb);
 
         return TicketMapper.toDto(ticketFromDb);
     }
 
-    private Ticket getTicketByUserId(Long authorId) {
+    private Ticket getTicketByUserId(Long authorId, Long tickerId) {
 
-        return ticketRepository.findByAuthorId(authorId).orElseThrow();
+        return ticketRepository.findByAuthorIdAndTicketId(authorId, tickerId).orElseThrow(()->
+                new ObjectNotFoundException("No ticket in Db"));
     }
 
     private User getUserById(Long userId) {
 
-        return userRepository.findById(userId).orElseThrow();
+        return userRepository.findById(userId).orElseThrow(()->
+                new ObjectNotFoundException("No user in Db"));
     }
 
     private TicketDto saveTicket(Ticket ticket) {
@@ -232,7 +220,7 @@ public class TicketServiceImpl implements TicketService {
         return TicketMapper.toDtoFromNew(ticketToUpdate, ticket, author);
     }
 
-    private Ticket textManipulator(Ticket ticket) {
+    private TicketDto textManipulator(TicketDto ticket) {
 
         ticket.setMessage(ticket.getMessage()
                 .chars()
@@ -246,5 +234,41 @@ public class TicketServiceImpl implements TicketService {
 
         return ticketRepository.findByAuthorIdAndTicketId(authorId, ticketId)
                 .orElseThrow(() -> new ObjectNotFoundException("No ticket to ACCEPT"));
+    }
+
+    private List<Ticket> getListTicketsAndFilterBySENT(PageRequest pageRequest) {
+
+        return ticketRepository.findAll(pageRequest)
+                .stream()
+                .filter(ticket -> ticket.getStatus().equals(Status.SEND))
+                .sorted(Comparator.comparing(Ticket::getCreated))
+                .toList();
+    }
+
+    private List<TicketDto> getTicketListAndManipulateIt(List<Ticket> list) {
+
+        return list.stream()
+                .map(TicketMapper::toDto)
+                .map(this::textManipulator)
+                .toList();
+    }
+
+    private PageRequest pageRequestCalculator(Integer from,
+                                              Integer size) {
+
+        return PageRequest.of(from / size, size);
+    }
+
+    private List<TicketDto> getTicketCreatedByUserListAndManipulateIt(List<Ticket> listTicketCreatedByUsersAndFilterBySENT) {
+
+        return listTicketCreatedByUsersAndFilterBySENT.stream()
+                .map(TicketMapper::toDto)
+                .map(this::textManipulator)
+                .toList();
+    }
+
+    private List<Ticket> getListTicketCreatedByUsersAndFilterBySENT(User authorFromDb, PageRequest pageRequest) {
+
+        return ticketRepository.findAllByAuthor_Id(authorFromDb.getId(), pageRequest);
     }
 }

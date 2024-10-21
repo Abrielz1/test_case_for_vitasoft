@@ -49,12 +49,13 @@ public class UserController {
         return userService.creationTicketByUser(authorId, newTicket);
     }
 
-    @PutMapping("/{authorId}")
+    @PutMapping("edit/{authorId}/{tickerId}")
     @ResponseStatus(HttpStatus.OK)
     public TicketDto editTicketByUser(@Positive @PathVariable(name = "authorId") Long authorId,
+                                      @Positive @PathVariable(name = "tickerId") Long tickerId,
                                       @Validated(Update.class)@RequestBody TicketNewDto ticketToUpdate) {
 
-        return userService.editTicketByUser(authorId, ticketToUpdate);
+        return userService.editTicketByUser(authorId, tickerId, ticketToUpdate);
     }
 
     @PutMapping("send/{authorId}/{tickerId}")

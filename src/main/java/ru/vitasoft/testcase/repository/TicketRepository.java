@@ -21,10 +21,4 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     Optional<Ticket> findByAuthorIdAndTicketId(Long authorId, Long ticketId);
 
     List<Ticket> findAllByAuthor_Id(Long author_id, PageRequest pageRequest);
-
-    @Query(value =
-            "SELECT * "
-                    + "FROM tickets "
-                    + "WHERE tickets.author_id = :authorId " ,nativeQuery = true)
-    Optional<Ticket> findByAuthorId(Long authorId);
 }

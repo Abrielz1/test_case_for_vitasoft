@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.vitasoft.testcase.service.UserService;
 import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import ru.vitasoft.testcase.utils.Update;
-
 import java.util.List;
 
 @Slf4j

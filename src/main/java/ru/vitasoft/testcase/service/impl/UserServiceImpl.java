@@ -52,12 +52,13 @@ public class UserServiceImpl implements UserService {
         operator.setRoles(null);
         operator.setRoles(new HashSet<>(List.of(RoleType.ROLE_OPERATOR)));
 
-        return UserMapper.toDto(operator);
+        return UserMapper.toDto(userRepository.saveAndFlush(operator));
     }
 
 
     private User getAuthorFromDbByUsername(String username) {
 
-        return userRepository.getAuthorFromDbByUsername(username).orElseThrow();
+        return userRepository.getAuthorFromDbByUsername(username).orElseThrow(()->
+                new ObjectNotFoundException("No user in Db"));
     }
 }

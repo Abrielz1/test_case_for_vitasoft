@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.vitasoft.testcase.model.dto.responce.TicketDto;
 import ru.vitasoft.testcase.model.dto.responce.UserDto;
 import ru.vitasoft.testcase.service.TicketService;
-
 import java.util.List;
 
 @Slf4j
@@ -33,7 +32,7 @@ public class OperatorController {
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<TicketDto> getTicketCreatedByUsersToCheckByOperator(
-            @RequestParam Boolean sort,
+            @RequestParam(defaultValue = "false", required = false) Boolean sort,
             @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Positive @RequestParam(defaultValue = "5")  Integer size) {
 

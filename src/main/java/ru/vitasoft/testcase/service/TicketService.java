@@ -7,16 +7,17 @@ import java.util.List;
 
 public interface TicketService {
 
-    List<TicketDto> getTicketCreatedByUser(Long userId,
+    List<TicketDto> getTicketCreatedByUser(Long authorId,
                                            Boolean sort,
                                            Integer from,
                                            Integer  size) ;
 
-    TicketDto creationTicketByUser(Long userId,
+    TicketDto creationTicketByUser(Long authorId,
                                    TicketNewDto newTicket);
 
-    TicketDto editTicketByUser(Long userId,
-                               TicketNewDto newTicket);
+    TicketDto editTicketByUser(Long authorId,
+                               Long tickerId,
+                               TicketNewDto ticketToUpdate);
 
     TicketDto sendTicketToOperatorToReview(Long authorId, Long tickerId);
 
