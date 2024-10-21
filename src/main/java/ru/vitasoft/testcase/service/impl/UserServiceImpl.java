@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.vitasoft.testcase.exception.exceptions.AlreadyExistsException;
 import ru.vitasoft.testcase.exception.exceptions.BadRequestException;
 import ru.vitasoft.testcase.exception.exceptions.ObjectNotFoundException;
 import ru.vitasoft.testcase.model.dto.responce.UserDto;
@@ -56,28 +55,6 @@ public class UserServiceImpl implements UserService {
         return UserMapper.toDto(operator);
     }
 
-    @Override
-    public UserDto registerUserOnServer(UserDto newUser) {
-
-        if (this.checkUser(newUser.getUsername())) {
-            throw new AlreadyExistsException("User with this credentials already exists on this server!");
-        }
-
-        User toDb = UserMapper.toUser(newUser);
-
-        if (toDb.getRoles() == null) {
-            toDb.setRoles(newUser.getRoles());
-        }
-
-        userRepository.saveAndFlush(toDb);
-
-        return UserMapper.toDto(toDb);
-    }
-
-    private boolean checkUser(String username) {
-
-        return userRepository.existsByUsername(username);
-    }
 
     private User getAuthorFromDbByUsername(String username) {
 

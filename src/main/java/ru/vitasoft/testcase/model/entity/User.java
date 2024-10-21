@@ -20,7 +20,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 import ru.vitasoft.testcase.model.enums.roles.RoleType;
-
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -43,10 +42,10 @@ public class User implements Serializable {
     @Column(name = "email", nullable = false, columnDefinition = "VARCHAR(32)", unique = true)
     private String email;
 
-    @Column(name = "username", columnDefinition = "VARCHAR(32)", nullable = false,unique = true)
+    @Column(name = "username", columnDefinition = "VARCHAR(128)", nullable = false,unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false, columnDefinition = "VARCHAR(32)")
+    @Column(name = "password", nullable = false, columnDefinition = "VARCHAR(1024)")
     private String password;
 
     @ElementCollection(targetClass = RoleType.class, fetch = FetchType.EAGER)

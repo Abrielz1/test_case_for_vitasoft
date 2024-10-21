@@ -1,33 +1,33 @@
-create table if not exists users
+CREATE TABLE IF NOT EXISTS users
 (
-    id       bigserial primary key,
-    email    varchar(32) not null unique,
-    password varchar(32) not null,
-    username varchar(32) not null unique
+    id       BIGSERIAL PRIMARY KEY,
+    email    VARCHAR(32) NOT NULL UNIQUE,
+    password VARCHAR(1024) NOT NULl,
+    username VARCHAR(128) NOT NULL UNIQUE
 );
 
-create table if not exists tickets
+CREATE TABLE IF NOT EXISTS tickets
 (
-    id        bigserial primary key,
-    created   timestamp,
-    message   varchar(512) not null,
-    status    varchar(255) not null
-        constraint tickets_status_check
-            check ((status)::text = ANY
-                   ((ARRAY ['DRAFT'::character varying, 'SEND'::character varying, 'ACCEPTED'::character varying, 'REJECTED'::character varying])::text[])),
-    author_id bigint
-        constraint user_id
-            references users
+    id        BIGSERIAL PRIMARY KEY,
+    created   TIMESTAMP,
+    message   VARCHAR(512) NOT NULL,
+    status    VARCHAR(255) NOT NULL
+        CONSTRAINT tickets_status_check
+            CHECK ((status)::TEXT = ANY
+                   ((ARRAY ['DRAFT'::CHARACTER VARYING, 'SEND'::CHARACTER VARYING, 'ACCEPTED'::CHARACTER VARYING, 'REJECTED'::CHARACTER VARYING])::TEXT[])),
+    author_id BIGINT
+        CONSTRAINT user_id
+            REFERENCES users
 );
 
 create table if not exists user_roles
 (
-    user_id bigint       not null
-        constraint user_id
-            references users,
-    roles   varchar(255) not null
-        constraint user_roles_roles_check
-            check ((roles)::text = ANY
-                   ((ARRAY ['ROLE_USER'::character varying, 'ROLE_ADMIN'::character varying, 'ROLE_OPERATOR'::character varying])::text[])),
-    primary key (user_id, roles)
+    user_id BIGINT       NOT NULL
+        CONSTRAINT user_id
+            REFERENCES users,
+    roles   VARCHAR(255) NOT NULL
+        CONSTRAINT user_roles_roles_check
+            CHECK ((roles)::TEXT = ANY
+                   ((ARRAY ['ROLE_USER'::CHARACTER VARYING, 'ROLE_ADMIN'::CHARACTER VARYING, 'ROLE_OPERATOR'::CHARACTER VARYING])::TEXT[])),
+    PRIMARY KEY (user_id, roles)
 );
