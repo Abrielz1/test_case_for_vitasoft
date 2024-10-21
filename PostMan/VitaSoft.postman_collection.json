@@ -1,0 +1,701 @@
+{
+	"info": {
+		"_postman_id": "b54e7f00-a9c8-43e3-903f-7d5f6109fd79",
+		"name": "VitaSoft",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24040827"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "AddingAdminAccount",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"vasya\",\r\n    \"email\" : \"a11@mail.com\",\r\n    \"password\" : \"1234\",\r\n    \"roles\" : [\"ROLE_ADMIN\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adding1stUserAccount",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"oleg\",\r\n    \"email\" : \"oleg1@mail.com\",\r\n    \"password\" : \"1234\",\r\n    \"roles\" : [\"ROLE_USER\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddingSecondUserAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"senya\",\r\n    \"email\" : \"senya1@mail.com\",\r\n    \"password\" : \"1234\",\r\n    \"roles\" : [\"ROLE_USER\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginAdmin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"vasya\",\r\n    \"password\" : \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUSER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"senya\",\r\n    \"password\" : \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUSERWhatBECAMEOPERATOR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"oleg\",\r\n    \"password\" : \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ticket",
+			"item": [
+				{
+					"name": "Operator",
+					"item": [
+						{
+							"name": "GetALLTicketsInRevers",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTI2NTQ1LCJleHAiOjE3Mjk1MjcxNDV9.UJuQws32zUJBy7ji1VZkAAkmeK4TySBD5YOLfYzYrHxQpdnjKE1kU8zL8CNxRHRc_J99amJD8RHuTf7DoJvAvw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/operators/all?sort=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"operators",
+										"all"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetALLTicketsInAversByUsername",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTI2NTQ1LCJleHAiOjE3Mjk1MjcxNDV9.UJuQws32zUJBy7ji1VZkAAkmeK4TySBD5YOLfYzYrHxQpdnjKE1kU8zL8CNxRHRc_J99amJD8RHuTf7DoJvAvw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"senya\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/operators/author?sort=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"operators",
+										"author"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetALLTicketsInAvers",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTI2NTQ1LCJleHAiOjE3Mjk1MjcxNDV9.UJuQws32zUJBy7ji1VZkAAkmeK4TySBD5YOLfYzYrHxQpdnjKE1kU8zL8CNxRHRc_J99amJD8RHuTf7DoJvAvw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/operators/all?sort=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"operators",
+										"all"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetALLTicketsInReversByUsername",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTI2NTQ1LCJleHAiOjE3Mjk1MjcxNDV9.UJuQws32zUJBy7ji1VZkAAkmeK4TySBD5YOLfYzYrHxQpdnjKE1kU8zL8CNxRHRc_J99amJD8RHuTf7DoJvAvw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"senya\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/operators/author?sort=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"operators",
+										"author"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OperatorAcceptedTicket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTIzMzgwLCJleHAiOjE3Mjk1MjM5ODB9.pLKUYheP0K8_FTfYqzk5RO0FXLH5KoY-r4owlMxZWms8xETq35sLKvEtSIsdHax0FjRfczmFTH94xv9YqkeC0w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/operators/accept/3/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"operators",
+										"accept",
+										"3",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OperatorRejectedRequest",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTIzMzgwLCJleHAiOjE3Mjk1MjM5ODB9.pLKUYheP0K8_FTfYqzk5RO0FXLH5KoY-r4owlMxZWms8xETq35sLKvEtSIsdHax0FjRfczmFTH94xv9YqkeC0w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/operators/reject/3/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"operators",
+										"reject",
+										"3",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetALLTicketsInRevers",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTI2NTQ1LCJleHAiOjE3Mjk1MjcxNDV9.UJuQws32zUJBy7ji1VZkAAkmeK4TySBD5YOLfYzYrHxQpdnjKE1kU8zL8CNxRHRc_J99amJD8RHuTf7DoJvAvw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/operators/all?sort=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"operators",
+										"all"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Author",
+					"item": [
+						{
+							"name": "AnotherticketCreatedBySameAuthor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZW55YSIsImlhdCI6MTcyOTUyMzI2MywiZXhwIjoxNzI5NTIzODYzfQ.nIGGCVoCG1BmowhgrFL9LG5RZtJvbgIIfYyOu_4WQbXDS2disLa_D29Q_lDzzvFlsAC8q1vshFAECothtamEWA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"message\" : \"Door somethimes stuck, fix it!!! Faster!\",\r\n    \"status\" : \"DRAFT\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdatedTicketInStatusSENT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZW55YSIsImlhdCI6MTcyOTUyMzI2MywiZXhwIjoxNzI5NTIzODYzfQ.nIGGCVoCG1BmowhgrFL9LG5RZtJvbgIIfYyOu_4WQbXDS2disLa_D29Q_lDzzvFlsAC8q1vshFAECothtamEWA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/users/send/3/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"send",
+										"3",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EditionTicketByUser",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGVnIiwiaWF0IjoxNzI5NTE4MjAyLCJleHAiOjE3Mjk1MTg4MDJ9.jWXH-PQnScNB4IXFDP6GGWZtEmjP6j9jPeEclnF5GjZYvfjfuoug8bMcwti51zafLnVklZmVzJBSTonFYac8tA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"message\" : \"Broken window, it's won't open fix it\",\r\n    \"status\" : \"DRAFT\",\r\n    \"created\": \"2024-10-20 17:07:51.669994\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/edit/2/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"edit",
+										"2",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "getAllAccountsList",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2YXN5YSIsImlhdCI6MTcyOTUxOTEyMywiZXhwIjoxNzI5NTE5NzIzfQ.QEVapSmJPStqx_ceABF14rZaWZ87_GL9loQXyn2k3OKAMCgEH_sGwAJCHPsduC-H4dej2yolmhqixX5jqEA3yA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admins/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admins",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserAccountByUsername",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2YXN5YSIsImlhdCI6MTcyOTUxNzQ4MSwiZXhwIjoxNzI5NTE4MDgxfQ.DT0PFihKIw-KhlGw9wRS5GWKR3zG-WUHOihndBBDE-6nHTttXS7Zb0MARGiVvmSAGWz8f00XvjQShgw5X4GjFA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"vasya\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admins/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admins",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUserAsOperator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2YXN5YSIsImlhdCI6MTcyOTUyMTE2MSwiZXhwIjoxNzI5NTIxNzYxfQ.gNbyVbli7SuRY6ySdndRdYsSHTVXJMS8fOfdfPyVi8UIxeSzDPXTR5EzYVZX_xelWFDm1Iy806wAYrMRUVpcqA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admins/operator/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admins",
+								"operator",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
